@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Disease Prediction System</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="header">
+        <h1>🩺 AI Disease Prediction System</h1>
+        <div class="ai-badge">
+            🤖 Powered by Machine Learning
+        </div>
+        <p>
+            Machine Learning based disease prediction using your symptoms
+        </p>
+    </div>
+
+
+    <div class="prediction-card">
+
+        <h2>🔍 Select Your Symptoms</h2>
+
+        <p class="instruction">
+            Choose the symptoms you are experiencing and click predict.
+        </p>
+
+
+        <form action="/predict" method="POST">
+
+            <div class="symptom-box">
+
+                {% for symptom in symptoms %}
+
+                <label class="symptom-item">
+
+                    <input type="checkbox"
+                           name="symptoms"
+                           value="{{ symptom }}"
+                           {% if selected and symptom in selected %}checked{% endif %}>
+
+                    <span>
+                        {{ symptom.replace('_', ' ').title() }}
+                    </span>
+
+                </label>
+
+                {% endfor %}
+
+            </div>
+
+
+            <button class="predict-btn" type="submit" onclick="showLoading()">
+
+                <span id="btnText">
+                    🔍 Predict Disease
+                </span>
+
+                <span id="loader" class="loader">
+                    ⏳ Predicting...
+                </span>
+
+            </button>
+
+
+        </form>
+
+    </div>
+
+
+
+    {% if prediction %}
+
+    <div class="result-card">
+
+        <div class="result-header">
+            <h2>🩺 Prediction Result</h2>
+        </div>
+
+
+        <div class="disease-name">
+            {{ prediction }}
+        </div>
+
+        {% if confidence %}
+
+        <div class="confidence-box">
+
+            <h3>🤖 Prediction Confidence</h3>
+
+            <div class="progress-container">
+
+                <div class="progress-bar" style="width: {{ confidence }}%">
+                    {{ confidence }}%
+                </div>
+
+            </div>
+
+        </div>
+
+        {% endif %}
+
+        {% if prediction_note %}
+        <div class="warning-box">
+            {{ prediction_note }}
+        </div>
+        {% endif %}
+
+        <div class="info-grid">
+
+
+            <div class="info-section">
+                <h3>📖 Description</h3>
+                <p>{{ info.description }}</p>
+            </div>
+
+
+
+            <div class="info-section">
+
+                <h3>💊 Medicines</h3>
+
+                <ul>
+
+                    {% for item in info.medicine %}
+
+                    <li>{{ item }}</li>
+
+                    {% endfor %}
+
+                </ul>
+
+            </div>
+
+
+
+
+            <div class="info-section">
+
+                <h3>🥗 Diet Recommendations</h3>
+
+                <ul>
+
+                    {% for item in info.diet %}
+
+                    <li>{{ item }}</li>
+
+                    {% endfor %}
+
+                </ul>
+
+            </div>
+
+
+
+
+
+            <div class="info-section">
+
+                <h3>⚠️ Precautions</h3>
+
+                <ul>
+
+                    {% for item in info.precautions %}
+
+                    <li>{{ item }}</li>
+
+                    {% endfor %}
+
+                </ul>
+
+            </div>
+
+
+
+
+
+            <div class="info-section doctor">
+
+                <h3>👨‍⚕️ Doctor Consultation</h3>
+
+                <p>
+                    <strong>{{ info.doctor }}</strong>
+                </p>
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+    {% endif %}
+
+
+
+</div>
+
+<script>
+
+function showLoading(){
+
+    document.getElementById("btnText").style.display="none";
+
+    document.getElementById("loader").style.display="inline";
+
+}
+
+</script>
+
+<footer class="footer">
+    <p>
+        ⚠️ This application is for educational purposes only and should not be used as a substitute for professional medical advice.
+    </p>
+</footer>
+
+</body>
+</html>
