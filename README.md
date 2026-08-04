@@ -135,7 +135,9 @@ http://127.0.0.1:5000
 
 A complete demonstration of the application is available in this repository.
 
-📹 **Demo Video:** [AI_Disease_Prediction_Demo.mp4](AI_Disease_Prediction_Demo.mp4)
+Watch the demo here:
+
+▶️ https://your-video-link
 
 The demo includes:
 
